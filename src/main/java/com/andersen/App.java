@@ -4,7 +4,6 @@ import com.andersen.caches.TwoLevelCache;
 import com.andersen.object.MyFile;
 
 import java.io.IOException;
-import java.security.Key;
 
 /**
  * Проверка кеша!
@@ -23,7 +22,7 @@ public class App
             for (int i=0; i<21; i++){
                 twoLevelCache.cache(""+1, new MyFile(""+i, i));
                 if (i%3 == 0){
-                    System.out.println(twoLevelCache.getObject(""+(i-2)));
+                    System.out.println(twoLevelCache.getObject(""+(1)));
                     testCacheSize(twoLevelCache);
                 }
             }

@@ -24,6 +24,7 @@ public class RamCache<Key, Value> implements Cache<Key, Value>, CallObjectCounts
      */
     private TreeMap<Key, Integer> callCounterMap;
 
+
     public RamCache() {
         hashMap = new HashMap<Key, Value>();
         callCounterMap = new TreeMap<Key, Integer>();
@@ -39,13 +40,14 @@ public class RamCache<Key, Value> implements Cache<Key, Value>, CallObjectCounts
     }
 
     /**
-     * если вызывали какой-либо объект, то увеличиваем число обращений  этому объекту
+     * если вызывали какой-либо объект, то увеличиваем число обращений к этому объекту
      */
     @Override
     public Value getObject(Key key) throws IOException, ClassNotFoundException {
         if (hashMap.containsKey(key)){
             int count = callCounterMap.get(key);
-            callCounterMap.put(key, ++count);
+            count = count+1;
+            callCounterMap.put(key, count);
             return hashMap.get(key);
         }
         return null;
@@ -90,7 +92,7 @@ public class RamCache<Key, Value> implements Cache<Key, Value>, CallObjectCounts
     @Override
     public Set<Key> getMostCalledKeys() {
         CallCountComparator callCountComparator = new CallCountComparator(callCounterMap);
-        TreeMap<Key, Integer> sorted = new TreeMap<>(callCountComparator);
+        TreeMap<Key, Integer> sorted = new TreeMap(callCountComparator);
         sorted.putAll(callCounterMap);
         return sorted.keySet();
     }
